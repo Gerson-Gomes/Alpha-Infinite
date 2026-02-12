@@ -1,0 +1,11 @@
+{
+  "name": "ipsim-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for InfinitePay Simulator",
+  "devDependencies": {
+    "typescript": "^5.3.3"
+  },
+  "scripts": {
+    "build": "tsc"
+  }
+}

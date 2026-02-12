@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>IP-Sim Main Dashboard</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body>
+
+    <div class="app-shell">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-brand">
+                <div class="sidebar-brand__icon">
+                    <span class="material-symbols-outlined">account_balance_wallet</span>
+                </div>
+                <div>
+                    <h1 class="sidebar-brand__title">IP-Sim</h1>
+                    <span class="sidebar-brand__subtitle glow-text">Command Center</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-nav">
+                <a class="nav-link nav-link--active" href="dashboard.html">
+                    <span class="material-symbols-outlined">dashboard</span>
+                    <span>Dashboard</span>
+                </a>
+                <a class="nav-link" href="simulator.html">
+                    <span class="material-symbols-outlined">swap_horiz</span>
+                    <span>Simulator</span>
+                </a>
+                <a class="nav-link" href="#">
+                    <span class="material-symbols-outlined">hub</span>
+                    <span>Network Nodes</span>
+                </a>
+                <a class="nav-link" href="#">
+                    <span class="material-symbols-outlined">security</span>
+                    <span>Security Layer</span>
+                </a>
+                <a class="nav-link" href="#">
+                    <span class="material-symbols-outlined">settings</span>
+                    <span>Simulation Prefs</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-footer">
+                <div class="sidebar-status">
+                    <p class="sidebar-status__label">Sim Engine Status</p>
+                    <div class="sidebar-status__row">
+                        <span class="sidebar-status__text">Running Stable</span>
+                        <div class="sidebar-status__dot pulse-indicator"></div>
+                    </div>
+                    <div class="progress-bar">
+                        <div class="progress-bar__fill" style="width: 75%;"></div>
+                    </div>
+                </div>
+                <button onclick="window.location.href='simulator.html'" class="btn btn--primary">
+                    <span class="material-symbols-outlined" style="font-size:14px;">bolt</span>
+                    NEW TRANSACTION
+                </button>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content custom-scrollbar">
+            <!-- Header -->
+            <header class="header">
+                <div class="header__left">
+                    <h2 class="header__title">System Overview</h2>
+                    <span class="header__badge">SESSION: LOCAL-DEV</span>
+                </div>
+                <div class="header__right">
+                    <button onclick="document.documentElement.classList.toggle('dark')" class="btn--icon">
+                        <span class="material-symbols-outlined">light_mode</span>
+                    </button>
+                    <div class="notification-bell">
+                        <span class="material-symbols-outlined">notifications</span>
+                        <div class="notification-bell__dot"></div>
+                    </div>
+                    <div class="header__user">
+                        <div class="header__user-info">
+                            <p class="header__user-name">Infinite Admin</p>
+                            <p class="header__user-role">Sim User</p>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-container">
+                <!-- Stats -->
+                <div class="stats-grid" id="stats-container">
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <p class="stat-card__label">Active Nodes</p>
+                            <span class="material-symbols-outlined stat-card__icon">dns</span>
+                        </div>
+                        <h3 class="stat-card__value">1,024</h3>
+                        <p class="stat-card__delta stat-card__delta--positive">+12 since reboot</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <p class="stat-card__label">Current TPS</p>
+                            <span class="material-symbols-outlined stat-card__icon">speed</span>
+                        </div>
+                        <h3 class="stat-card__value tabular-nums">4,290.8</h3>
+                        <p class="stat-card__delta stat-card__delta--positive">Stable Flow</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <p class="stat-card__label">Success Rate</p>
+                            <span class="material-symbols-outlined stat-card__icon">check_circle</span>
+                        </div>
+                        <h3 class="stat-card__value">99.98%</h3>
+                        <p class="stat-card__delta stat-card__delta--positive">No retries detected</p>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-card__header">
+                            <p class="stat-card__label">Simulated Fees</p>
+                            <span class="material-symbols-outlined stat-card__icon">payments</span>
+                        </div>
+                        <h3 class="stat-card__value">0.00045 <span>IP</span></h3>
+                        <p class="stat-card__delta stat-card__delta--negative">-1.2% avg cost</p>
+                    </div>
+                </div>
+
+                <!-- Charts Row -->
+                <div class="charts-grid">
+                    <!-- Network Throughput -->
+                    <div class="chart-card">
+                        <div class="chart-card__header">
+                            <div>
+                                <h4 class="chart-card__title">Network Throughput</h4>
+                                <p class="chart-card__subtitle">Real-time simulated transaction volume (TPS)</p>
+                            </div>
+                            <div class="chart-card__actions">
+                                <button class="chart-btn chart-btn--active">LIVE</button>
+                                <button class="chart-btn">1H</button>
+                            </div>
+                        </div>
+                        <div class="chart-area">
+                            <svg preserveAspectRatio="none" viewBox="0 0 400 150">
+                                <defs>
+                                    <linearGradient id="grad" x1="0%" x2="0%" y1="0%" y2="100%">
+                                        <stop offset="0%" style="stop-color:rgba(58, 206, 28, 0.3);stop-opacity:1">
+                                        </stop>
+                                        <stop offset="100%" style="stop-color:rgba(58, 206, 28, 0);stop-opacity:1">
+                                        </stop>
+                                    </linearGradient>
+                                </defs>
+                                <path
+                                    d="M0,150 L0,80 C40,70 60,110 100,90 C140,70 160,30 200,40 C240,50 260,120 300,100 C340,80 360,110 400,90 L400,150 Z"
+                                    fill="url(#grad)"></path>
+                                <path
+                                    d="M0,80 C40,70 60,110 100,90 C140,70 160,30 200,40 C240,50 260,120 300,100 C340,80 360,110 400,90"
+                                    fill="none" stroke="#3ace1c" stroke-linecap="round" stroke-width="2.5"></path>
+                            </svg>
+                        </div>
+                        <div class="chart-timestamps">
+                            <span>14:00:10</span>
+                            <span>14:00:20</span>
+                            <span>14:00:30</span>
+                            <span>14:00:40</span>
+                            <span>14:00:50</span>
+                            <span>14:01:00</span>
+                        </div>
+                    </div>
+
+                    <!-- Core Pulse -->
+                    <div class="chart-card core-pulse">
+                        <h4 class="chart-card__title">Core Pulse</h4>
+                        <div class="core-pulse__center">
+                            <div class="core-pulse__ring">
+                                <div class="core-pulse__outer">
+                                    <div class="core-pulse__inner">
+                                        <span class="material-symbols-outlined pulse-indicator">favorite</span>
+                                    </div>
+                                </div>
+                                <div class="core-pulse__ping animate-ping"></div>
+                            </div>
+                            <div style="text-align:center;">
+                                <p class="core-pulse__value">99.998%</p>
+                                <p class="core-pulse__label">System Health</p>
+                            </div>
+                        </div>
+                        <div class="core-pulse__stats">
+                            <div class="core-pulse__stat">
+                                <span class="core-pulse__stat-label">Uptime</span>
+                                <span class="core-pulse__stat-value font-mono">148d 12h 04m</span>
+                            </div>
+                            <div class="core-pulse__stat">
+                                <span class="core-pulse__stat-label">Latency</span>
+                                <span class="core-pulse__stat-value core-pulse__stat-value--accent font-mono">12ms
+                                    avg</span>
+                            </div>
+                            <div class="core-pulse__stat">
+                                <span class="core-pulse__stat-label">Sim Population</span>
+                                <span class="core-pulse__stat-value font-mono">8.2M Accounts</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Bottom Row -->
+                <div class="bottom-grid">
+                    <!-- Transactions Table -->
+                    <div class="table-container">
+                        <div class="table-header">
+                            <h4 class="table-header__title">Live Transaction Stream</h4>
+                            <button onclick="loadTransactions()" class="btn--icon">
+                                <span class="material-symbols-outlined" style="font-size:14px;">refresh</span>
+                            </button>
+                        </div>
+                        <div class="table-scroll custom-scrollbar">
+                            <table class="data-table">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Type</th>
+                                        <th>Amount</th>
+                                        <th>Net Amount</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="transactions-body">
+                                    <!-- Populated by JS -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+
+                    <!-- Ledger Integrity -->
+                    <div class="ledger-card">
+                        <div class="ledger-card__header">
+                            <h4 class="ledger-card__title">Ledger Integrity</h4>
+                            <button class="ledger-card__action">Re-Sync All</button>
+                        </div>
+                        <div class="ledger-items">
+                            <div class="ledger-item">
+                                <div class="ledger-item__left">
+                                    <span class="material-symbols-outlined">hub</span>
+                                    <div>
+                                        <p class="ledger-item__name">Primary Validator</p>
+                                        <p class="ledger-item__id">ID: PV-001-ALPHA</p>
+                                    </div>
+                                </div>
+                                <div class="ledger-item__right">
+                                    <span class="ledger-item__status">CONSISTENT</span>
+                                    <div class="ledger-item__dot"></div>
+                                </div>
+                            </div>
+                            <div class="ledger-item">
+                                <div class="ledger-item__left">
+                                    <span class="material-symbols-outlined">storage</span>
+                                    <div>
+                                        <p class="ledger-item__name">Merchant DB Mirror</p>
+                                        <p class="ledger-item__id">ID: DB-MIRROR-X</p>
+                                    </div>
+                                </div>
+                                <div class="ledger-item__right">
+                                    <span class="ledger-item__status">CONSISTENT</span>
+                                    <div class="ledger-item__dot"></div>
+                                </div>
+                            </div>
+                            <div class="ledger-item">
+                                <div class="ledger-item__left">
+                                    <span class="material-symbols-outlined">cloud_sync</span>
+                                    <div>
+                                        <p class="ledger-item__name">Cloudwalk Ledger Sync</p>
+                                        <p class="ledger-item__id">ID: CW-SYNC-L2</p>
+                                    </div>
+                                </div>
+                                <div class="ledger-item__right">
+                                    <span class="ledger-item__status">CONSISTENT</span>
+                                    <div class="ledger-item__dot"></div>
+                                </div>
+                            </div>
+                            <div class="ledger-item ledger-item--add">
+                                <div class="ledger-item__left">
+                                    <span class="material-symbols-outlined">add_circle</span>
+                                    <p>Assign additional node...</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="ledger-mini-stats">
+                            <div class="ledger-mini-stat">
+                                <p class="ledger-mini-stat__label">Drift Rate</p>
+                                <p class="ledger-mini-stat__value">0.0000%</p>
+                            </div>
+                            <div class="ledger-mini-stat">
+                                <p class="ledger-mini-stat__label">Last Audit</p>
+                                <p class="ledger-mini-stat__value">1.4s AGO</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script type="module" src="js/dashboard.js"></script>
+</body>
+
+</html>

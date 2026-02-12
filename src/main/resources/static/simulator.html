@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>IP-Sim // Transaction Simulator</title>
+    <link rel="stylesheet" href="css/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap"
+        rel="stylesheet" />
+</head>
+
+<body class="app-shell--column">
+
+    <!-- Header -->
+    <header class="sim-header">
+        <div class="sim-header__left">
+            <a href="dashboard.html" class="sim-header__back">
+                <span class="material-symbols-outlined" style="font-size:1.875rem;">arrow_back</span>
+            </a>
+            <div>
+                <h1 class="sim-header__title">
+                    IP-Sim <span class="badge badge--version">v1.0</span>
+                </h1>
+                <p class="sim-header__subtitle">Transaction Control Center</p>
+            </div>
+        </div>
+        <div>
+            <button onclick="document.documentElement.classList.toggle('dark')" class="btn--theme-toggle">
+                <span class="material-symbols-outlined" style="font-size:1.25rem;">contrast</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Split -->
+    <main class="sim-layout">
+        <!-- Config Panel -->
+        <section class="config-panel custom-scrollbar">
+            <div class="mb-8">
+                <h2 class="config-panel__title">
+                    <span class="material-symbols-outlined">tune</span>
+                    Payload Configuration
+                </h2>
+            </div>
+
+            <form id="sim-form" class="sim-form" onsubmit="event.preventDefault();">
+                <!-- Amount -->
+                <div class="form-group">
+                    <label class="form-label">Transaction Amount (BRL)</label>
+                    <div class="form-input-wrap">
+                        <span class="form-input-wrap__prefix">R$</span>
+                        <input id="amount" class="form-input form-input--prefixed" type="number" step="0.01"
+                            value="150.00" />
+                    </div>
+                </div>
+
+                <!-- Card Type -->
+                <div class="form-group">
+                    <label class="form-label">Type</label>
+                    <div class="type-grid">
+                        <button type="button" onclick="setType('CREDIT_SPOT')" id="btn-credit"
+                            class="type-btn type-btn--active">
+                            Credit
+                        </button>
+                        <button type="button" onclick="setType('DEBIT')" id="btn-debit" class="type-btn">
+                            Debit
+                        </button>
+                    </div>
+                    <input type="hidden" id="type" value="CREDIT_SPOT">
+                </div>
+
+                <!-- Installments -->
+                <div class="form-group">
+                    <label class="form-label">Installments</label>
+                    <input id="installments" class="form-input form-input--small" type="number" min="1" max="12"
+                        value="1" />
+                </div>
+
+                <!-- Execute -->
+                <button id="execute-btn" class="btn btn--execute">
+                    <span class="material-symbols-outlined font-black">play_arrow</span>
+                    EXECUTE TRANSACTION
+                </button>
+            </form>
+        </section>
+
+        <!-- Log Viewer -->
+        <section class="log-panel">
+            <div class="log-panel__header">
+                <div class="log-panel__header-left">
+                    <h2 class="log-panel__title">
+                        <span class="material-symbols-outlined">analytics</span>
+                        Packet Trace
+                    </h2>
+                </div>
+                <button onclick="document.getElementById('logs-container').innerHTML = ''" class="log-panel__clear">
+                    Clear Logs
+                </button>
+            </div>
+            <div id="logs-container" class="log-stream custom-scrollbar">
+                <!-- Logs appear here -->
+                <div class="empty-state">
+                    <span class="material-symbols-outlined animate-spin">sync</span>
+                    <p>Ready to simulate...</p>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script type="module" src="js/simulator.js"></script>
+</body>
+
+</html>

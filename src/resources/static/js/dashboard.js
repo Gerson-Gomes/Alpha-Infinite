@@ -28,35 +28,51 @@ function loadTransactions() {
                 : '0.0';
             // 2. Render Stats
             statsContainer.innerHTML = `
-            <div class="bg-card-dark border border-border-dark p-5 rounded-xl">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Volume</p>
-                <h3 class="text-3xl font-bold">R$ ${totalVolume.toFixed(2)}</h3>
+            <div class="stat-card">
+                <div class="stat-card__header">
+                    <p class="stat-card__label">Total Volume</p>
+                    <span class="material-symbols-outlined stat-card__icon">account_balance</span>
+                </div>
+                <h3 class="stat-card__value">R$ ${totalVolume.toFixed(2)}</h3>
+                <p class="stat-card__delta stat-card__delta--positive">${transactions.length} transactions</p>
             </div>
-             <div class="bg-card-dark border border-border-dark p-5 rounded-xl">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Net Revenue</p>
-                <h3 class="text-3xl font-bold">R$ ${totalNet.toFixed(2)}</h3>
+            <div class="stat-card">
+                <div class="stat-card__header">
+                    <p class="stat-card__label">Net Revenue</p>
+                    <span class="material-symbols-outlined stat-card__icon">payments</span>
+                </div>
+                <h3 class="stat-card__value">R$ ${totalNet.toFixed(2)}</h3>
+                <p class="stat-card__delta stat-card__delta--positive">After fees</p>
             </div>
-             <div class="bg-card-dark border border-border-dark p-5 rounded-xl">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Success Rate</p>
-                <h3 class="text-3xl font-bold">${successRate}%</h3>
+            <div class="stat-card">
+                <div class="stat-card__header">
+                    <p class="stat-card__label">Success Rate</p>
+                    <span class="material-symbols-outlined stat-card__icon">check_circle</span>
+                </div>
+                <h3 class="stat-card__value">${successRate}%</h3>
+                <p class="stat-card__delta stat-card__delta--positive">Approval ratio</p>
             </div>
-             <div class="bg-card-dark border border-border-dark p-5 rounded-xl">
-                <p class="text-xs font-bold text-slate-500 uppercase tracking-widest">Total Txns</p>
-                <h3 class="text-3xl font-bold">${transactions.length}</h3>
+            <div class="stat-card">
+                <div class="stat-card__header">
+                    <p class="stat-card__label">Total Txns</p>
+                    <span class="material-symbols-outlined stat-card__icon">receipt_long</span>
+                </div>
+                <h3 class="stat-card__value">${transactions.length}</h3>
+                <p class="stat-card__delta">Simulated</p>
             </div>
         `;
             // 3. Render Table
             tbody.innerHTML = transactions.map(t => {
                 const isApproved = t.status === 'APPROVED';
-                const statusColor = isApproved ? 'text-primary bg-primary/10 border-primary/20' : 'text-red-500 bg-red-500/10 border-red-500/20';
+                const statusClass = isApproved ? 'status-badge--approved' : 'status-badge--declined';
                 return `
-                 <tr class="hover:bg-primary/5 transition-colors group">
-                    <td class="px-6 py-4 font-mono text-xs text-slate-400">${t.id.substring(0, 8)}...</td>
-                    <td class="px-6 py-4 font-medium">${t.type}</td>
-                    <td class="px-6 py-4 font-bold tabular-nums">R$ ${t.amount.toFixed(2)}</td>
-                    <td class="px-6 py-4 font-bold tabular-nums text-slate-400">R$ ${t.netAmount.toFixed(2)}</td>
-                    <td class="px-6 py-4 text-right">
-                        <span class="px-2 py-0.5 rounded-full text-[10px] font-bold border ${statusColor}">${t.status}</span>
+                 <tr>
+                    <td class="font-mono">${t.id.substring(0, 8)}...</td>
+                    <td>${t.type}</td>
+                    <td class="tabular-nums">R$ ${t.amount.toFixed(2)}</td>
+                    <td class="tabular-nums">R$ ${t.netAmount.toFixed(2)}</td>
+                    <td>
+                        <span class="status-badge ${statusClass}">${t.status}</span>
                     </td>
                 </tr>
             `;
@@ -64,7 +80,7 @@ function loadTransactions() {
         }
         catch (e) {
             console.error("Failed to load transactions", e);
-            statsContainer.innerHTML = `<div class="p-4 text-red-500">Error loading data</div>`;
+            statsContainer.innerHTML = `<div class="stat-card"><p class="stat-card__label" style="color: var(--color-danger);">Error loading data</p></div>`;
         }
     });
 }

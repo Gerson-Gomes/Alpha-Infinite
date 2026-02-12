@@ -19,14 +19,13 @@ window.setType = (type) => {
     document.getElementById('type').setAttribute('value', type);
     const btnCredit = document.getElementById('btn-credit');
     const btnDebit = document.getElementById('btn-debit');
-    // Simple toggle styling (resetting/setting classes manually for simplicity)
     if (type === 'CREDIT_SPOT') {
-        btnCredit.className = "type-btn flex items-center justify-center gap-2 h-10 border border-primary bg-primary/10 rounded-lg text-sm font-bold text-primary";
-        btnDebit.className = "type-btn flex items-center justify-center gap-2 h-10 border border-border-dark bg-background-dark rounded-lg text-sm font-bold text-slate-400";
+        btnCredit.className = "type-btn type-btn--active";
+        btnDebit.className = "type-btn";
     }
     else {
-        btnDebit.className = "type-btn flex items-center justify-center gap-2 h-10 border border-primary bg-primary/10 rounded-lg text-sm font-bold text-primary";
-        btnCredit.className = "type-btn flex items-center justify-center gap-2 h-10 border border-border-dark bg-background-dark rounded-lg text-sm font-bold text-slate-400";
+        btnDebit.className = "type-btn type-btn--active";
+        btnCredit.className = "type-btn";
     }
 };
 function executeTransaction() {
@@ -65,10 +64,10 @@ function executeTransaction() {
 function addLog(type, title, body, isSuccess = true) {
     const container = document.getElementById('logs-container');
     const timestamp = new Date().toISOString().split('T')[1].slice(0, -1); // HH:MM:SS.mmm
-    let colorClass = type === 'Request' ? 'border-slate-400 bg-slate-100/50 dark:bg-white/5'
-        : (isSuccess ? 'border-primary bg-primary/5' : 'border-red-500 bg-red-500/10');
-    let typeBadgeColor = type === 'Request' ? 'bg-slate-500 text-white'
-        : (isSuccess ? 'bg-primary text-black' : 'bg-red-500 text-white');
+    const logType = type === 'Request' ? 'log-entry--request'
+        : (isSuccess ? 'log-entry--success' : 'log-entry--error');
+    const badgeType = type === 'Request' ? 'log-badge--request'
+        : (isSuccess ? 'log-badge--success' : 'log-badge--error');
     // Syntax Highlight JSON
     const highlightedBody = body.replace(/("(\\u[a-zA-Z0-9]{4}|\\[^u]|[^\\"])*"(\s*:)?|\b(true|false|null)\b|-?\d+(?:\.\d*)?(?:[eE][+\-]?\d+)?)/g, function (match) {
         let cls = 'json-number';
@@ -81,27 +80,27 @@ function addLog(type, title, body, isSuccess = true) {
             }
         }
         else if (/true|false/.test(match)) {
-            cls = 'json-string'; // boolean
+            cls = 'json-boolean';
         }
         else if (/null/.test(match)) {
-            cls = 'json-string'; // null
+            cls = 'json-null';
         }
         return '<span class="' + cls + '">' + match + '</span>';
     });
     const logHtml = `
-        <div class="border-l-2 ${colorClass} p-4 rounded-r-lg mb-4 animate-fade-in">
-            <div class="flex items-center justify-between mb-2">
-                <div class="flex items-center gap-3">
-                    <span class="text-slate-500">${timestamp}</span>
-                    <span class="${typeBadgeColor} px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">${type}</span>
-                    <span class="font-bold text-slate-800 dark:text-slate-200 uppercase">${title}</span>
+        <div class="log-entry ${logType}">
+            <div class="log-entry__header">
+                <div class="log-entry__meta">
+                    <span class="log-entry__timestamp">${timestamp}</span>
+                    <span class="log-badge ${badgeType}">${type}</span>
+                    <span class="log-entry__title">${title}</span>
                 </div>
             </div>
-            <pre class="bg-slate-900 text-slate-300 p-3 rounded overflow-x-auto">${highlightedBody}</pre>
+            <pre class="log-entry__body">${highlightedBody}</pre>
         </div>
     `;
     // Remove empty state if present
-    const emptyState = container === null || container === void 0 ? void 0 : container.querySelector('.flex-col');
+    const emptyState = container === null || container === void 0 ? void 0 : container.querySelector('.empty-state');
     if (emptyState)
         emptyState.remove();
     // Prepend

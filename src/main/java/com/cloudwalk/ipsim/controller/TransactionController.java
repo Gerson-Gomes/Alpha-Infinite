@@ -8,7 +8,7 @@ import com.cloudwalk.ipsim.model.TransactionStatus;
 import com.cloudwalk.ipsim.repository.TransactionRepository;
 import com.cloudwalk.ipsim.service.PaymentService;
 import jakarta.validation.Valid;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -18,16 +18,11 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/api/transactions")
 @CrossOrigin(origins = "*") // Allow frontend to call
+@RequiredArgsConstructor
 public class TransactionController {
 
     private final PaymentService paymentService;
     private final TransactionRepository transactionRepository;
-
-    @Autowired
-    public TransactionController(PaymentService paymentService, TransactionRepository transactionRepository) {
-        this.paymentService = paymentService;
-        this.transactionRepository = transactionRepository;
-    }
 
     @PostMapping
     public ResponseEntity<TransactionResponseDTO> processPayment(@Valid @RequestBody PaymentRequestDTO request) {

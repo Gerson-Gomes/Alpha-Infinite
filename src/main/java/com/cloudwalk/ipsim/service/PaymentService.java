@@ -3,23 +3,18 @@ package com.cloudwalk.ipsim.service;
 import com.cloudwalk.ipsim.model.Transaction;
 import com.cloudwalk.ipsim.model.TransactionStatus;
 import com.cloudwalk.ipsim.repository.TransactionRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Service
+@RequiredArgsConstructor
 public class PaymentService {
 
     private final TransactionRepository transactionRepository;
     private final FeeService feeService;
-
-    @Autowired
-    public PaymentService(TransactionRepository transactionRepository, FeeService feeService) {
-        this.transactionRepository = transactionRepository;
-        this.feeService = feeService;
-    }
 
     public Transaction processPayment(Transaction transaction) {
         // 1. Validate

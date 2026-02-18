@@ -39,15 +39,23 @@ public class TransactionController {
         // Process
         Transaction processed = paymentService.processPayment(transaction);
 
-        // Map Response
+        // Map Response - Now includes checkout URL for InfinitePay
+        String message = switch (processed.getStatus()) {
+            case APPROVED -> "Transaction approved successfully";
+            case PENDING -> "Checkout link created. Please complete payment.";
+            case DENIED -> "Transaction denied";
+        };
+
         TransactionResponseDTO response = new TransactionResponseDTO(
                 processed.getId(),
                 processed.getAmount(),
                 processed.getNetAmount(),
                 processed.getStatus(),
                 processed.getTimestamp(),
-                processed.getStatus() == TransactionStatus.APPROVED ? "Transaction approved successfully"
-                        : "Transaction denied");
+                message,
+                processed.getCheckoutUrl(),  // InfinitePay checkout link
+                processed.getOrderNsu(),
+                processed.getReceiptUrl());
 
         return ResponseEntity.ok(response);
     }
@@ -61,8 +69,38 @@ public class TransactionController {
                         t.getNetAmount(),
                         t.getStatus(),
                         t.getTimestamp(),
-                        ""))
+                        "",
+                        t.getCheckoutUrl(),
+                        t.getOrderNsu(),
+                        t.getReceiptUrl()))
                 .collect(Collectors.toList());
         return ResponseEntity.ok(list);
+    }
+
+    /**
+     * Get transaction by order NSU (for status polling)
+     *
+     * Frontend can poll this endpoint to check if webhook has updated status
+     *
+     * @param orderNsu Your internal order identifier
+     * @return Transaction details
+     */
+    @GetMapping("/order/{orderNsu}")
+    public ResponseEntity<TransactionResponseDTO> getTransactionByOrderNsu(@PathVariable String orderNsu) {
+        Transaction t = transactionRepository.findByOrderNsu(orderNsu)
+                .orElseThrow(() -> new RuntimeException("Transaction not found"));
+
+        TransactionResponseDTO response = new TransactionResponseDTO(
+                t.getId(),
+                t.getAmount(),
+                t.getNetAmount(),
+                t.getStatus(),
+                t.getTimestamp(),
+                "",
+                t.getCheckoutUrl(),
+                t.getOrderNsu(),
+                t.getReceiptUrl());
+
+        return ResponseEntity.ok(response);
     }
 }

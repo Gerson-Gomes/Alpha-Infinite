@@ -18,4 +18,9 @@ public class TransactionResponseDTO {
     private TransactionStatus status;
     private LocalDateTime timestamp;
     private String message;
+
+    // InfinitePay Integration Fields
+    private String checkoutUrl;  // InfinitePay payment link to open in browser
+    private String orderNsu;      // Internal order tracking ID
+    private String receiptUrl;    // Payment receipt URL (after successful payment)
 }

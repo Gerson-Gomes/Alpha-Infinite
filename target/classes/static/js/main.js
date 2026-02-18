@@ -1,10 +1,6 @@
-/**
- * IP-Sim Main Entry Point
- * Redirects from the landing page to the dashboard.
- */
+// main.js — Simple redirect to dashboard
 document.addEventListener('DOMContentLoaded', () => {
-    // Redirect to the main dashboard after a brief loading display
     setTimeout(() => {
-        window.location.href = 'dashboard.html';
-    }, 1200);
+        window.location.href = '/dashboard.html';
+    }, 1500);
 });
